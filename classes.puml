@@ -1,0 +1,30 @@
+@startuml
+
+package "rules" {
+    class Rule1
+    class Rule2
+    class Rule3
+}
+
+package "executor" {
+    class Executor1
+    class Executor2
+    class Executor3
+}
+
+' Define relationships between classes (if any)
+Rule1 --> Executor1 : uses
+Rule2 --> Executor2 : uses
+Rule3 --> Executor3 : uses
+
+
+package "sql_validator.rules" {
+    class SQLValidator {
+        +_extract_physical_fields(parsed)
+        +_register_table_alias(node)
+        +_extract_fields(node)
+    }
+}
+
+
+@enduml
