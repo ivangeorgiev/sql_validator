@@ -3,3 +3,5 @@ click
 pytest
 sqlparse
 sqlglot
+transitions
+
