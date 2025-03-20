@@ -1,3 +1,6 @@
+.venv*/
+.vscode/
+.dev*/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -172,3 +175,6 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+secrets_config.ini
+junit.xml

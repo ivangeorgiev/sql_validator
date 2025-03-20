@@ -1,0 +1,5 @@
+# Force Unix line endings even on Windows, so we can easily share a hybrid clone between both
+# sides. .cmd and .bat are excepted because they require CR/LF, obviously
+* text=auto eol=lf
+*.{cmd,[cC][mM][dD]}  text eol=crlf
+*.{bat,[bB][aA][tT]}  text eol=crlf
