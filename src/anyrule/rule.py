@@ -18,27 +18,40 @@ class Rule(NodeMixin):
 
 
 class IfRule(Rule):
-    execute_children_list_context_attr = "execute_children_list"
+    execute_children_list_context_attr = "__override_children_execute"
 
     def __call__(self, context):
-        if self.condition(context):
-            children_rules = self.get_then_rules()
-        else:
-            children_rules = self.get_else_rules()
+        child_rule = self.then_rule if self.condition(context) else self.else_rule
+        children_rules = [child_rule] if child_rule else []
         setattr(context, self.execute_children_list_context_attr, children_rules)
+
+    @property
+    def then_rule(self):
+        if len(self.children) > 0:
+            return self.children[0]
+
+    @then_rule.setter
+    def then_rule(self, value):
+        else_rule = self.else_rule
+        if else_rule:
+            self.children = (value, else_rule)
+        else:
+            self.children = (value,)
+
+    @property
+    def else_rule(self):
+        if len(self.children) > 1:
+            return self.children[1]
+
+    @else_rule.setter
+    def else_rule(self, value):
+        then_rule = self.then_rule
+        if not then_rule:
+            raise ValueError("Cannot set else rule without a then rule.")
+        self.children = (then_rule, value)
 
     def condition(self, context) -> bool:
         raise NotImplementedError("Implement the condition method.")
-
-    def get_then_rules(self):
-        if len(self.children) > 0:
-            return (self.children[0],)
-        return tuple()
-
-    def get_else_rules(self):
-        if len(self.children) > 1:
-            return (self.children[1],)
-        return tuple()
 
 
 class IfEvalRule(IfRule):

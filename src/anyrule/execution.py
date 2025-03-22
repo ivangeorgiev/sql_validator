@@ -3,7 +3,7 @@ from .rule import Rule
 
 
 class RuleExecutor:
-    execute_children_list_context_attr = "execute_children_list"
+    execute_children_list_context_attr = "__override_children_execute"
 
     def execute(self, rule: Rule, context):
         rule(context)
